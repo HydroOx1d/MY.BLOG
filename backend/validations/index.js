@@ -6,3 +6,10 @@ export const registerValidation = [
   body('username', 'Имя пользователя должно быть не короче, чем 3 символа').isLength({min: 3}),
   body('avatarUrl', 'Некорректная сыылка на аватарку').optional().isURL()
 ]
+
+export const postCreateValidation = [
+  body('title', 'Укажите корректный заголовок').isLength({min: 3}).isString(),
+  body('text', 'Укажите корректный текст').isLength({min: 3}).isString(),
+  body('tags', 'Укажите теги (Array)').optional().isString(),
+  body('imageUrl', 'Неверная ссылка на изображение').optional().isString()
+]

@@ -10,7 +10,6 @@ export default (req, res, next) => {
       req.userId = isVerify._id
       next()
     } catch(e) {
-      console.log(e)
       return res.status(403).json({
         msg: "Нет доступа"
       })
