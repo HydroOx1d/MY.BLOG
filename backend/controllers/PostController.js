@@ -67,3 +67,34 @@ export const getOne = (req, res) => {
     })
   }
 }
+
+export const remove = (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    PostModel.findByIdAndDelete({
+      _id: postId
+    }, (err, doc) => {
+      if(err) {
+        return res.status(500).json({
+          msg: "Не удалось удалить статью"
+        })
+      }
+
+      if(!doc) {
+        return res.status(404).json({
+          msg: "статья не найдена"
+        })
+      } 
+
+      res.json({
+        msg: "Статья удалена"
+      })
+    })
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({
+      msg: "Не удалось удалить статью"
+    })
+  }
+}
