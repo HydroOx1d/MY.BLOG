@@ -1,4 +1,5 @@
 import express from 'express'
+import multer from 'multer'
 import mongoose from 'mongoose'
 
 import { postCreateValidation, registerValidation } from './validations/index.js';
@@ -11,8 +12,19 @@ mongoose.connect(
 ).then(() => console.log('Connected with Database'))
  .catch((err) => console.log('Failed to connected with Database', err));
 
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname)
+  }
+}) 
+
+const upload = multer({ storage })
 
 const app = express()
+app.use('/uploads', express.static('uploads'))
 app.use(express.json())
 
 const PORT = 8080;
@@ -27,6 +39,11 @@ app.post('/posts', checkAuth, postCreateValidation, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch('/posts/:id', checkAuth, PostController.update)
 
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+  res.json({
+    url: '/uploads/' + req.file.originalname
+  })
+})
 
 app.listen(
   PORT,
