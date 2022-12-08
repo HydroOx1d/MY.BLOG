@@ -23,13 +23,47 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find();
+    const posts = await PostModel.find().populate('user').exec();
 
     res.json(posts)
   } catch(err) {
     console.log(err)
     res.status(500).json({
       msg: "Не удалось получить статьи!"
+    })
+  }
+}
+
+
+export const getOne = (req, res) => {
+  try {
+    const postId = req.params.id;
+    
+    PostModel.findOneAndUpdate({
+      _id: postId
+    }, {
+      $inc: {viewsCount: 1}
+    }, {
+      returnDocument: "after"
+    }, (err, doc) => {
+      if(err) {
+        return res.status(404).json({
+          msg: "Ошибка, попробуйте позже"
+        })
+      }
+
+      if(!doc) {
+        return res.status(404).json({
+          msg: "Не удалось найти статью"
+        })
+      }
+
+      res.json(doc)
+    })
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({
+      msg: "Не удалось получить статью"
     })
   }
 }
