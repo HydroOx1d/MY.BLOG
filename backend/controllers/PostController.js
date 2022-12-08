@@ -98,3 +98,28 @@ export const remove = (req, res) => {
     })
   }
 }
+
+export const update = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    await PostModel.updateOne({
+      _id: postId,
+    }, {
+      title: req.body.title,
+      text: req.body.text,
+      tags: req.body.tags,
+      imageUrl: req.body.imageUrl,
+      user: req.userId
+    })
+
+    res.json({
+      msg: "Статья обновлена"
+    })
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({
+      msg: "Не удалось обновить статью"
+    })
+  }
+}
