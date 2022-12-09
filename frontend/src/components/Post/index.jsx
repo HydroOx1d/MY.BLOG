@@ -28,7 +28,7 @@ export const Post = ({
   if (isLoading) {
     return <PostSkeleton />;
   }
-
+  
   const onClickRemove = () => {};
 
   return (
