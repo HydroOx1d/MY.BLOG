@@ -8,16 +8,18 @@ import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 
 import { useDispatch, useSelector} from 'react-redux'
-import { fetchPosts } from '../store/slices/postSlices';
+import { fetchPosts, fetchTags } from '../store/slices/postSlices';
 
 export const Home = () => {
   const {posts, tags} = useSelector(state => state.posts)
   const dispatch = useDispatch();
 
-  const isLoading = posts.status === 'loading'
+  const postsIsLoading = posts.status === 'loading'
+  const tagsIsLoading = tags.status === 'loading'
 
   React.useEffect(() => {
-    dispatch(fetchPosts())  
+    dispatch(fetchPosts())
+    dispatch(fetchTags())  
   }, [])
 
   return (
@@ -28,7 +30,7 @@ export const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {!isLoading ? posts.items.map((post) => {
+          {!postsIsLoading ? posts.items.map((post) => {
               return (
                 <Post
                   key={post._id}
@@ -48,12 +50,12 @@ export const Home = () => {
               )
             }) : (
             [...Array(5)].map(() => (
-              <Post isLoading={isLoading}/>
+              <Post isLoading={postsIsLoading}/>
             ))
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} />
+          <TagsBlock items={tags.items} isLoading={tagsIsLoading} />
           <CommentsBlock
             items={[
               {
