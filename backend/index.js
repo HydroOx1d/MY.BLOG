@@ -29,7 +29,7 @@ const upload = multer({ storage })
 const app = express()
 
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "http://localhost:3001"
 }))
 app.use('/uploads', express.static('uploads'))
 app.use(express.json())
@@ -41,6 +41,7 @@ app.post('/auth/register',registerValidation, handleValidationError, UserControl
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/posts', PostController.getAll)
+app.get('/tags', PostController.getLastTags)
 app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postCreateValidation, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)
