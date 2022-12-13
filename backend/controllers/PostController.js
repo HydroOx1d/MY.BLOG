@@ -59,7 +59,7 @@ export const getOne = (req, res) => {
       }
 
       res.json(doc)
-    })
+    }).populate('user')
   } catch(err) {
     console.log(err)
     res.status(500).json({
