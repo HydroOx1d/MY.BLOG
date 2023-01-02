@@ -3,7 +3,7 @@ import multer from 'multer'
 import mongoose from 'mongoose'
 import cors from 'cors';
 
-import { postCreateValidation, registerValidation } from './validations/index.js';
+import { postCreateValidation, registerValidation, loginValidation} from './validations/index.js';
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
 import * as PostController from './controllers/PostController.js'
@@ -28,22 +28,20 @@ const upload = multer({ storage })
 
 const app = express()
 
-app.use(cors({
-  origin: "http://localhost:3001"
-}))
+app.use(cors())
 app.use('/uploads', express.static('uploads'))
 app.use(express.json())
 
 const PORT = 8080;
 
-app.post('/auth/login', UserController.login)
+app.post('/auth/login', loginValidation, handleValidationError, UserController.login)
 app.post('/auth/register',registerValidation, handleValidationError, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/posts', PostController.getAll)
 app.get('/tags', PostController.getLastTags)
 app.get('/posts/:id', PostController.getOne)
-app.post('/posts', checkAuth, postCreateValidation, PostController.create)
+app.post('/posts', checkAuth, postCreateValidation, handleValidationError, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch('/posts/:id', checkAuth, PostController.update)
 

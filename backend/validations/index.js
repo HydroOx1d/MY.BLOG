@@ -13,3 +13,8 @@ export const postCreateValidation = [
   body('tags', 'Укажите теги (Array)').optional().isString(),
   body('imageUrl', 'Неверная ссылка на изображение').optional().isString()
 ]
+
+export const loginValidation = [
+  body('email', 'Укажите корректную почту').isEmail(),
+  body('password', 'Не менее, чем 5 символов').isLength({ min: 5 })
+]
