@@ -31,7 +31,6 @@ export const Home = () => {
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {!postsIsLoading ? posts.items.map((post) => {
-            console.log(post._id)
               return (
                 <Post
                   key={post._id}
