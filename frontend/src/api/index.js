@@ -9,6 +9,12 @@ instance.interceptors.request.use((config) => {
   return config
 })
 
+export const uploadFile = async (file) => {
+  const res = await instance.post('/upload', file)
+
+  return res.data
+}
+
 export const getPosts = async () => {
   const res = await instance.get('/posts')
 
@@ -23,6 +29,12 @@ export const getTags = async () => {
 
 export const getFullPost = async (id) => {
   const res = await instance.get('/posts/' + id)
+
+  return res.data
+}
+
+export const createPost = async (postData) => {
+  const res = await instance.post('/posts', postData)
 
   return res.data
 }

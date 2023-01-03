@@ -10,7 +10,7 @@ export const registerValidation = [
 export const postCreateValidation = [
   body('title', 'Укажите корректный заголовок').isLength({min: 3}).isString(),
   body('text', 'Укажите корректный текст').isLength({min: 3}).isString(),
-  body('tags', 'Укажите теги (Array)').optional().isString(),
+  body('tags', 'Укажите теги (Array)').optional().isArray(),
   body('imageUrl', 'Неверная ссылка на изображение').optional().isString()
 ]
 

@@ -12,6 +12,7 @@ import { fetchPosts, fetchTags } from '../store/slices/postSlices';
 
 export const Home = () => {
   const {posts, tags} = useSelector(state => state.posts)
+  const {data} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
   const postsIsLoading = posts.status === 'loading'
@@ -36,7 +37,7 @@ export const Home = () => {
                   key={post._id}
                   _id={post._id}
                   title={post.title}
-                  imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                  imageUrl={post.imageUrl}
                   user={{
                     avatarUrl: post.user.avatarUrl,
                     fullName: post.user.username,
@@ -45,7 +46,7 @@ export const Home = () => {
                   viewsCount={post.viewsCount}
                   commentsCount={3}
                   tags={post.tags}
-                  isEditable
+                  isEditable={data?._id === post.user._id}
                 />
               )
             }) : (
