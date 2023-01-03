@@ -39,6 +39,12 @@ export const createPost = async (postData) => {
   return res.data
 }
 
+export const removePost = async (postId) => {
+  const res = await instance.delete('/posts/' + postId)
+
+  return res.data
+}
+
 export const login = async (loginData) => {
   const res = await instance.post('/auth/login', loginData)
 

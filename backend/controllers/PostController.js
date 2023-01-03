@@ -88,7 +88,10 @@ export const remove = (req, res) => {
       } 
 
       res.json({
-        msg: "Статья удалена"
+        msg: "Статья удалена",
+        data: {
+          _id: doc._id
+        }
       })
     })
   } catch(err) {
