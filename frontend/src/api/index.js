@@ -45,6 +45,12 @@ export const removePost = async (postId) => {
   return res.data
 }
 
+export const updatePost = async (postId, updatingData) => {
+  const res = await instance.patch('/posts/' + postId, updatingData)
+
+  return res.data
+}
+
 export const login = async (loginData) => {
   const res = await instance.post('/auth/login', loginData)
 

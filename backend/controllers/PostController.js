@@ -117,12 +117,14 @@ export const update = async (req, res) => {
     })
 
     res.json({
-      msg: "Статья обновлена"
+      msg: "Статья обновлена",
+      success: true
     })
   } catch(err) {
     console.log(err)
     res.status(500).json({
-      msg: "Не удалось обновить статью"
+      msg: "Не удалось обновить статью",
+      success: false
     })
   }
 }
