@@ -33,6 +33,12 @@ export const login = async (loginData) => {
   return res.data
 }
 
+export const register = async (registerData) => {
+  const res = await instance.post('/auth/register', registerData)
+
+  return res.data
+}
+
 export const getMe = async () => {
   const res = await instance.get('auth/me')
 

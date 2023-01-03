@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { login, getMe} from "../../api"
+import { login, getMe, register} from "../../api"
 
 export const loginThunk = createAsyncThunk('auth/login', async (loginData) => {
   const data = await login(loginData);
@@ -10,6 +10,17 @@ export const loginThunk = createAsyncThunk('auth/login', async (loginData) => {
 
   return data
 })
+
+export const registerThunk = createAsyncThunk('auth/register', async (registerData) => {
+  const data = await register(registerData)
+
+  if ('token' in data) {
+    window.localStorage.setItem('token', data.token)
+  }
+
+  return data
+})
+
 
 export const getMeThunk = createAsyncThunk('auth/getMe', async () => {
   const data = await getMe()
@@ -41,6 +52,19 @@ const authSlice = createSlice({
       state.data = action.payload
     },
     [loginThunk.rejected]: (state) => {
+      state.status = 'error'
+      state.data = null
+    },
+
+    [registerThunk.pending]: (state) => {
+      state.status = 'loading'
+      state.data = null
+    },
+    [registerThunk.fulfilled]: (state, action) => {
+      state.status = 'loaded'
+      state.data = action.payload
+    },
+    [registerThunk.rejected]: (state) => {
       state.status = 'error'
       state.data = null
     },
