@@ -15,14 +15,12 @@ import { uploadFile, createPost, getFullPost, updatePost} from '../../api';
 export const AddPost = () => {
   const {data} = useSelector(state => state.auth)
   const navigate = useNavigate()
-
+  const { id } = useParams()
+  const isEditing = Boolean(id)
+  
   if(!data) {
     navigate('/')
   }
-  
-  const { id } = useParams()
-
-  const isEditing = Boolean(id)
 
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('')
@@ -33,11 +31,14 @@ export const AddPost = () => {
 
   React.useEffect(() => {
     if(isEditing) {
-      getFullPost(id).then(data => {
-        setTitle(data.title)
-        setText(data.text)
-        setTags(data.tags.join(','))
-        setImageUrl(data.imageUrl)
+      getFullPost(id).then(post => {
+        if(post?.user?._id !== data?._id) {
+          navigate('/')
+        }
+        setTitle(post.title)
+        setText(post.text)
+        setTags(post.tags.join(','))
+        setImageUrl(post.imageUrl)
       })
     }
   }, [])
