@@ -68,3 +68,9 @@ export const getMe = async () => {
 
   return res.data
 }
+
+export const addComment = async (postId, text) => {
+  const res = await instance.post('/posts/' + postId + '/comment', {text})
+
+  return res.data
+}

@@ -3,7 +3,7 @@ import multer from 'multer'
 import mongoose from 'mongoose'
 import cors from 'cors';
 
-import { postCreateValidation, registerValidation, loginValidation} from './validations/index.js';
+import { postCreateValidation, registerValidation, loginValidation, commentAddValidation} from './validations/index.js';
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
 import * as PostController from './controllers/PostController.js'
@@ -44,6 +44,8 @@ app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postCreateValidation, handleValidationError, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.patch('/posts/:id', checkAuth, PostController.update)
+
+app.post('/posts/:id/comment', checkAuth, commentAddValidation, handleValidationError, PostController.addComment)
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   res.json({

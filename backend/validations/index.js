@@ -18,3 +18,7 @@ export const loginValidation = [
   body('email', 'Укажите корректную почту').isEmail(),
   body('password', 'Не менее, чем 5 символов').isLength({ min: 5 })
 ]
+
+export const commentAddValidation = [
+  body('text', 'Текст комментария обязателен').isString()
+]

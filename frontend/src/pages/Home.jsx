@@ -9,6 +9,7 @@ import { CommentsBlock } from '../components/CommentsBlock';
 
 import { useDispatch, useSelector} from 'react-redux'
 import { fetchPosts, fetchTags } from '../store/slices/postSlices';
+import { addComment } from '../api/index'
 
 export const Home = () => {
   const {posts, tags} = useSelector(state => state.posts)
@@ -44,7 +45,7 @@ export const Home = () => {
                   }}
                   createdAt={post.createdAt}
                   viewsCount={post.viewsCount}
-                  commentsCount={3}
+                  commentsCount={post.comments.length}
                   tags={post.tags}
                   isEditable={data?._id === post.user._id}
                 />

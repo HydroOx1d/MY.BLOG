@@ -23,7 +23,7 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate('user').exec();
+    const posts = await PostModel.find().populate('user').populate('comments.user').exec();
 
     res.json(posts)
   } catch(err) {
@@ -59,7 +59,7 @@ export const getOne = (req, res) => {
       }
 
       res.json(doc)
-    }).populate('user')
+    }).populate('user').populate('comments.user')
   } catch(err) {
     console.log(err)
     res.status(500).json({
@@ -141,6 +141,48 @@ export const getLastTags = async (req, res) => {
     console.log(err)
     res.status(500).json({
       msg: "Не удалось получить тэги"
+    })
+  }
+}
+
+export const addComment = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    PostModel.findByIdAndUpdate({_id: postId}, {
+      $push: {
+        comments: {
+          text: req.body.text,
+          user: req.userId
+        }
+      }
+    }, {
+      returnDocument: 'after'
+    }, (err, doc) => {
+      if(err) {
+        return res.status(500).json({
+          msg: "Не удалось добавить комментарий",
+          success: false
+        })
+      }
+
+      if(!doc) {
+        return res.status(404).json({
+          msg: "Статья не найдена",
+          success: false
+        })
+      }
+
+      res.json({
+        msg: "Комментарий добавлен",
+        success: true,
+        data: doc.comments
+      })
+    }).populate('user').populate('comments.user')
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({
+      msg: "Не удалось добавить комментарий"
     })
   }
 }
