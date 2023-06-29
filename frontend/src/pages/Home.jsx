@@ -9,7 +9,7 @@ import { CommentsBlock } from '../components/CommentsBlock';
 
 import { useDispatch, useSelector} from 'react-redux'
 import { fetchPosts, fetchTags } from '../store/slices/postSlices';
-import { addComment } from '../api/index'
+// import { addComment } from '../api/index'
 
 export const Home = () => {
   const {posts, tags} = useSelector(state => state.posts)
@@ -54,6 +54,11 @@ export const Home = () => {
             [...Array(5)].map((_, i) => (
               <Post key={i} isLoading={postsIsLoading}/>
             ))
+          )}
+          {posts.items.length <= 0 && (
+            <div style={{height: '400px', width: '100%'}}>
+              <img src="/no-data.png" alt="empty content" style={{width: '100%', height: '100%', objectFit: 'contain'}}/>
+            </div>
           )}
         </Grid>
         <Grid xs={4} item>
