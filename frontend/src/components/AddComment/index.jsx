@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 
-export const Index = ({onAddComment}) => {
+export const AddComment = ({onAddComment}) => {
   const { data } = useSelector(state => state.auth);
 
   const [text, setText] = React.useState('')

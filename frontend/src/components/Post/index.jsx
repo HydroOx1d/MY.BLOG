@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux'
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
-import { removePostThunk } from '../../store/slices/postSlices';
+import { fetchTags, removePostThunk } from '../../store/slices/postSlices';
 
 export const Post = ({
   _id,
@@ -37,6 +37,7 @@ export const Post = ({
   
   const onClickRemove = (_id) => {
     dispatch(removePostThunk(_id))
+    dispatch(fetchTags())
   };
 
   return (

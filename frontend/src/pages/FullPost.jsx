@@ -2,7 +2,7 @@ import React from "react";
 import ReactMarkdown from 'react-markdown'
 
 import { Post } from "../components/Post";
-import { Index } from "../components/AddComment";
+import { AddComment } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
 import { useParams } from "react-router-dom";
 import { getFullPost, addComment} from "../api";
@@ -56,7 +56,7 @@ export const FullPost = () => {
         items={data.comments}
         isLoading={false}
       >
-        <Index onAddComment={onAddComment}/>
+        <AddComment onAddComment={onAddComment}/>
       </CommentsBlock>
     </>
   );
