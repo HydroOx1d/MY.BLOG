@@ -51,8 +51,8 @@ export const Home = () => {
                 />
               )
             }) : (
-            [...Array(5)].map(() => (
-              <Post isLoading={postsIsLoading}/>
+            [...Array(5)].map((_, i) => (
+              <Post key={i} isLoading={postsIsLoading}/>
             ))
           )}
         </Grid>
