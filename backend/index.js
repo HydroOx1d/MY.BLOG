@@ -2,18 +2,16 @@ import express from 'express'
 import multer from 'multer'
 import mongoose from 'mongoose'
 import cors from 'cors';
-
+import 'dotenv/config'
 import { postCreateValidation, registerValidation, loginValidation, commentAddValidation} from './validations/index.js';
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
 import * as PostController from './controllers/PostController.js'
-
 import { handleValidationError } from './utils/handleValidationError.js';
 
-mongoose.connect(
-  'mongodb+srv://HydroOx1d:qwerty667@full-stack-app.gdtsuu7.mongodb.net/blog?retryWrites=true&w=majority'
-).then(() => console.log('Connected with Database'))
- .catch((err) => console.log('Failed to connected with Database', err));
+mongoose.connect(process.env.MONGODB_SERVER)
+  .then(() => console.log('Connected with Database'))
+  .catch((err) => console.log('Failed to connected with Database', err));
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
