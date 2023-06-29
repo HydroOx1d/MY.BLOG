@@ -8,80 +8,72 @@ import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 
 import { useDispatch, useSelector} from 'react-redux'
-import { fetchPosts, fetchTags } from '../store/slices/postSlices';
+import { fetchComments, fetchPosts, fetchTags } from '../store/slices/postSlices';
 // import { addComment } from '../api/index'
 
 export const Home = () => {
-  const {posts, tags} = useSelector(state => state.posts)
+  const {posts, tags, comments} = useSelector(state => state.posts)
   const {data} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
   const postsIsLoading = posts.status === 'loading'
   const tagsIsLoading = tags.status === 'loading'
+  const commentsIsLoading = comments.status === 'loading'
 
   React.useEffect(() => {
     dispatch(fetchPosts())
     dispatch(fetchTags())  
+    dispatch(fetchComments())
   }, [])
 
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+      <Tabs
+        style={{ marginBottom: 15 }}
+        value={0}
+        aria-label="basic tabs example"
+      >
         <Tab label="Новые" />
         <Tab label="Популярные" />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {!postsIsLoading ? posts.items.map((post) => {
-              return (
-                <Post
-                  key={post._id}
-                  _id={post._id}
-                  title={post.title}
-                  imageUrl={post.imageUrl}
-                  user={{
-                    avatarUrl: post.user.avatarUrl,
-                    fullName: post.user.username,
-                  }}
-                  createdAt={post.createdAt}
-                  viewsCount={post.viewsCount}
-                  commentsCount={post.comments.length}
-                  tags={post.tags}
-                  isEditable={data?._id === post.user._id}
-                />
-              )
-            }) : (
-            [...Array(5)].map((_, i) => (
-              <Post key={i} isLoading={postsIsLoading}/>
-            ))
-          )}
+          {!postsIsLoading
+            ? posts.items.map((post) => {
+                return (
+                  <Post
+                    key={post._id}
+                    _id={post._id}
+                    title={post.title}
+                    imageUrl={post.imageUrl}
+                    user={{
+                      avatarUrl: post.user.avatarUrl,
+                      fullName: post.user.username,
+                    }}
+                    createdAt={post.createdAt}
+                    viewsCount={post.viewsCount}
+                    commentsCount={post.comments.length}
+                    tags={post.tags}
+                    isEditable={data?._id === post.user._id}
+                  />
+                );
+              })
+            : [...Array(5)].map((_, i) => (
+                <Post key={i} isLoading={postsIsLoading} />
+              ))}
           {posts.items.length <= 0 && (
-            <div style={{height: '400px', width: '100%'}}>
-              <img src="/no-data.png" alt="empty content" style={{width: '100%', height: '100%', objectFit: 'contain'}}/>
+            <div style={{ height: "400px", width: "100%" }}>
+              <img
+                src="/no-data.png"
+                alt="empty content"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
             </div>
           )}
         </Grid>
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={tagsIsLoading} />
-          <CommentsBlock
-            items={[
-              {
-                user: {
-                  fullName: 'Вася Пупкин',
-                  avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-                },
-                text: 'Это тестовый комментарий',
-              },
-              {
-                user: {
-                  fullName: 'Иван Иванов',
-                  avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-                },
-                text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-              },
-            ]}
-            isLoading={false}
-          />
+          <CommentsBlock items={comments.items} isLoading={commentsIsLoading} />
         </Grid>
       </Grid>
     </>

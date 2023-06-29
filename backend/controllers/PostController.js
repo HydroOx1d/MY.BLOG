@@ -186,3 +186,18 @@ export const addComment = async (req, res) => {
     })
   }
 }
+
+export const getLastComments = async (req, res) => {
+  try {
+    const posts = await PostModel.find()
+      .populate("comments.user")
+      .limit(2);
+    const comments = posts.map(post => post.comments).flat().slice(0, 2)
+
+    res.json(comments)
+  } catch(err) {
+    return res.status(500).json({
+      msg: "Не удалось получить последние комментарии"
+    })
+  }
+}

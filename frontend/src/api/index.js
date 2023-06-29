@@ -27,6 +27,12 @@ export const getTags = async () => {
   return res.data
 }
 
+export const getComments = async () => {
+  const res = await instance.get('/comments')
+
+  return res.data
+}
+
 export const getFullPost = async (id) => {
   const res = await instance.get('/posts/' + id)
 
