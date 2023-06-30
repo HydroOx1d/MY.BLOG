@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { Header } from "./components";
-import { Home, FullPost, Registration, AddPost, Login } from "./pages";
+import { Home, FullPost, Registration, AddPost, Login, Tags } from "./pages";
 import { getMeThunk } from "./store/slices/authSlices";
 
 function App() {
@@ -25,6 +25,8 @@ function App() {
           <Route path="/posts/:id/edit" element={<AddPost />} />
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Registration/>}/>
+          <Route path="/tags/:tagId" element={<Tags/>}/>
+          <Route path="*" element={<h1>Page is not found</h1>}/>
         </Routes>
       </Container>
     </>

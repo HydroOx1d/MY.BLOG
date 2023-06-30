@@ -21,6 +21,12 @@ export const getPosts = async () => {
   return res.data
 }
 
+export const getPostsByTag = async (tagId) => {
+  const res = await instance.get('/tags/' + tagId)
+
+  return res.data
+}
+
 export const getTags = async () => {
   const res = await instance.get('/tags');
 

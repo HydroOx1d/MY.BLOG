@@ -48,7 +48,7 @@ export const Home = () => {
                     imageUrl={post.imageUrl}
                     user={{
                       avatarUrl: post.user.avatarUrl,
-                      fullName: post.user.username,
+                      username: post.user.username,
                     }}
                     createdAt={post.createdAt}
                     viewsCount={post.viewsCount}

@@ -7,16 +7,16 @@ const getDate = (additionalText) => {
   return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
 };
 
-export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
+export const UserInfo = ({ avatarUrl, username, additionalText }) => {
   return (
     <div className={styles.root}>
       <img
         className={styles.avatar}
         src={avatarUrl || "/noavatar.png"}
-        alt={fullName}
+        alt={username}
       />
       <div className={styles.userDetails}>
-        <span className={styles.userName}>{fullName}</span>
+        <span className={styles.userName}>{username}</span>
         <span className={styles.additional}>{getDate(additionalText)}</span>
       </div>
     </div>

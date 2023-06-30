@@ -38,6 +38,7 @@ app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/posts', PostController.getAll)
 app.get('/tags', PostController.getLastTags)
+app.get('/tags/:tagId', PostController.getPostsByTag)
 app.get('/comments', PostController.getLastComments)
 app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postCreateValidation, handleValidationError, PostController.create)

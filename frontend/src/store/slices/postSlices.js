@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { getComments, getPosts, getTags, removePost } from "../../api";
+import { getComments, getPosts, getPostsByTag, getTags, removePost } from "../../api";
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const data = await getPosts()
   return data;
+})
+
+export const fetchPostsByTag = createAsyncThunk('posts/fetchPostsByTag', async (tagId) => {
+  const data = await getPostsByTag(tagId)
+
+  return data
 })
 
 export const fetchTags = createAsyncThunk('posts/fetchTags', async () => {
@@ -55,6 +61,19 @@ const postsSlice = createSlice({
       state.posts.status = "loaded";
     },
     [fetchPosts.rejected]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "loaded";
+    },
+
+    [fetchPostsByTag.pending]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "loading";
+    },
+    [fetchPostsByTag.fulfilled]: (state, action) => {
+      state.posts.items = action.payload;
+      state.posts.status = "loaded";
+    },
+    [fetchPostsByTag.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = "loaded";
     },

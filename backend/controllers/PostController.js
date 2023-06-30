@@ -201,3 +201,22 @@ export const getLastComments = async (req, res) => {
     })
   }
 }
+
+export const getPostsByTag = async (req, res) => {
+  try {
+    const tag = req.params.tagId
+    const posts = await PostModel.find({tags: tag}).populate('user').populate('comments.user')
+
+    if(posts.length <= 0) {
+      return res.status(404).json({
+        msg: "Постов не найдено"
+      })
+    }
+
+    res.json(posts)
+  } catch(err) {
+    res.status(500).json({
+      msg: "Не удалось получить посты по тэгу"
+    })
+  }
+}
